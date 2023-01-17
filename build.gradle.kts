@@ -2,16 +2,41 @@ import com.kotakotik.kotalin.build.KotalinPlugin
 
 plugins {
     kotlin("multiplatform") version "1.7.21"
+    `maven-publish`
 }
 
 group = "com.kotakotik"
-version = "1.0-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
 }
 
 apply<KotalinPlugin>()
+
+publishing {
+    val ghUsername = System.getenv("GITHUB_ACTOR")
+    val ghToken = System.getenv("GITHUB_TOKEN")
+    if (ghUsername != null || ghToken != null) {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/kotakotik22/kotalin")
+                credentials {
+                    username = ghUsername
+                    password = ghToken
+                }
+            }
+        }
+        publications {
+            create<MavenPublication>("grp") {
+                from(components["kotlin"])
+            }
+        }
+    } else {
+        println("Not including publishing because we are not running on a github workflow")
+    }
+}
 
 kotlin {
     jvm {
