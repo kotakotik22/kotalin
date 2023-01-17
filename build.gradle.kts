@@ -66,6 +66,23 @@ kotlin {
         val ghUsername = System.getenv("GITHUB_ACTOR")
         val ghToken = System.getenv("GITHUB_TOKEN")
         if (ghUsername != null || ghToken != null) {
+            publications.withType<MavenPublication> {
+                artifact(javadocJar.get())
+
+                pom {
+                    name.set("Kotalin")
+                    description.set("")
+                    url.set("https://github.com/kotakotik22/kotalin")
+                    version = System.getenv("GITHUB_REF")!!.split("/").last()
+
+                    licenses {
+                        license {
+                            name.set("MIT")
+                            url.set("https://opensource.org/licenses/MIT")
+                        }
+                    }
+                }
+            }
             repositories {
                 maven {
                     name = "GitHubPackages"
@@ -74,12 +91,6 @@ kotlin {
                         username = ghUsername
                         password = ghToken
                     }
-                }
-            }
-            publications {
-                create<MavenPublication>("grp") {
-                    version = System.getenv("GITHUB_REF")!!.split("/").last()
-                    artifact(javadocJar.get())
                 }
             }
         } else {
