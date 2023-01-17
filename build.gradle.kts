@@ -14,28 +14,8 @@ repositories {
     mavenCentral()
 }
 
-publishing {
-    val ghUsername = System.getenv("GITHUB_ACTOR")
-    val ghToken = System.getenv("GITHUB_TOKEN")
-    if (ghUsername != null || ghToken != null) {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/kotakotik22/kotalin")
-                credentials {
-                    username = ghUsername
-                    password = ghToken
-                }
-            }
-        }
-        publications {
-            create<MavenPublication>("grp") {
-                from(components["kotlin"])
-            }
-        }
-    } else {
-        println("Not including publishing because we are not running on a github workflow")
-    }
+val javadocJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("javadoc")
 }
 
 kotlin {
@@ -63,8 +43,8 @@ kotlin {
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }
-
-    
+    val publicationsFromMainHost =
+        listOf(jvm(), js()).map { it.name } + "kotlinMultiplatform"
     sourceSets {
         val commonMain by getting {
             kotlin.srcDir("$projectDir/gen/")
@@ -80,5 +60,30 @@ kotlin {
         val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
+    }
+
+    publishing {
+        val ghUsername = System.getenv("GITHUB_ACTOR")
+        val ghToken = System.getenv("GITHUB_TOKEN")
+        if (ghUsername != null || ghToken != null) {
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/kotakotik22/kotalin")
+                    credentials {
+                        username = ghUsername
+                        password = ghToken
+                    }
+                }
+            }
+            publications {
+                create<MavenPublication>("grp") {
+                    version = System.getenv("GITHUB_REF")!!.split("/").last()
+                    artifact(javadocJar.get())
+                }
+            }
+        } else {
+            println("Not including github publishing because we are not running on a github workflow")
+        }
     }
 }
