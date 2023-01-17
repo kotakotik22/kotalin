@@ -1,5 +1,3 @@
-import com.kotakotik.kotalin.build.KotalinPlugin
-
 plugins {
     kotlin("multiplatform") version "1.7.21"
     `maven-publish`
@@ -11,8 +9,6 @@ version = "1.0"
 repositories {
     mavenCentral()
 }
-
-apply<KotalinPlugin>()
 
 publishing {
     val ghUsername = System.getenv("GITHUB_ACTOR")
