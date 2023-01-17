@@ -1,3 +1,5 @@
+import com.kotakotik.kotalin.build.KotalinPlugin
+
 plugins {
     kotlin("multiplatform") version "1.7.21"
     `maven-publish`
@@ -5,6 +7,8 @@ plugins {
 
 group = "com.kotakotik"
 version = "1.0"
+
+apply<KotalinPlugin>()
 
 repositories {
     mavenCentral()
@@ -63,7 +67,7 @@ kotlin {
     
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir("$buildDir/gen/")
+            kotlin.srcDir("$projectDir/gen/")
         }
         val commonTest by getting {
             dependencies {
