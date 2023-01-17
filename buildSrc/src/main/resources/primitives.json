@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Char",
+    "zero": "Char.MIN_VALUE",
+    "customIterator": false
+  },
+  {
+    "name": "Byte",
+    "zero": "0",
+    "customIterator": false
+  },
+  {
+    "name": "UByte",
+    "zero": "0u",
+    "customIterator": true
+  },
+  {
+    "name": "Short",
+    "zero": "0",
+    "customIterator": false
+  },
+  {
+    "name": "UShort",
+    "zero": "0u",
+    "customIterator": true
+  },
+  {
+    "name": "Int",
+    "zero": "0",
+    "customIterator": false
+  },
+  {
+    "name": "UInt",
+    "zero": "0u",
+    "customIterator": true
+  },
+  {
+    "name": "Long",
+    "zero": "0",
+    "customIterator": false
+  },
+  {
+    "name": "ULong",
+    "zero": "0u",
+    "customIterator": true
+  },
+  {
+    "name": "Float",
+    "zero": "0f",
+    "customIterator": false
+  },
+  {
+    "name": "Double",
+    "zero": "0.0",
+    "customIterator": false
+  }
+]
