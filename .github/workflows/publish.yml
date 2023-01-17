@@ -8,8 +8,9 @@
 name: Publish to packages
 
 on:
-  release:
-    types: [created]
+  push:
+    tags:
+      - '*'
 
 jobs:
   build:
