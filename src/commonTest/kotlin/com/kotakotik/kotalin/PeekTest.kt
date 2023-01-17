@@ -20,11 +20,11 @@ class PeekTest {
     @Test
     fun charTest() {
         val iter = "abc".iterator().peeking()
-        assertEquals('a', iter.peek())
-        assertEquals('a', iter.next())
-        assertEquals('b', iter.peek())
-        assertEquals('b', iter.next())
-        assertEquals('c', iter.next())
+        assertEquals('a', iter.peekChar())
+        assertEquals('a', iter.nextChar())
+        assertEquals('b', iter.peekChar())
+        assertEquals('b', iter.nextChar())
+        assertEquals('c', iter.nextChar())
         assertFalse(iter.hasNext())
     }
 }
